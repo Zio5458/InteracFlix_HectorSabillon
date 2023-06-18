@@ -357,7 +357,7 @@ public class Loading extends javax.swing.JFrame {
     private void loginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginMouseClicked
         if (login.isEnabled()) {
             int cont = 0;
-            File archivo = new File("/C://Users/hdann//OneDrive//Escritorio//Progra 2//InteracFlix_HectorSabillon//datausuarios.txt/");
+            File archivo = new File("./datausuarios.txt");
             try {
                 FileReader a = new FileReader(archivo);
                 BufferedReader b = new BufferedReader(a);
