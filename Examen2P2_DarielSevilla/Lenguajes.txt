@@ -1,0 +1,5 @@
+James Gosling;USA;Computer Science,John Gaga;CANADA;Engineer|Java.Si.01-01-1991.10,000,000|if$si$evaluar condiciones&for$para$ciclo iterador
+Guido van Rossum;Paises Bajos;Engineer|Python.Si.31-12-1954.50,000,000|def$definir$definir funciones&class$clase$definicion de clase
+Anders Hejlsberg;Dinamarca;Profesor,Niklaus Wirth;Polonia;Engineer,James Goslinggg;USA;Computer Science,Bill Gates;USA;Co|CSharp.Si.31-10-2001.65,000,000|while$mientras$ciclo iterador
+Alan Cooper;Rusia;Programador|Visual Basic Net.Si.10-10-2010.55,000,000|int$entero$variable entera&double$doble$numero con decimales&float$flotante$numero con decimales
+Haskell Curry;Inglaterra;Cientifico,Erick Meijer;Aleman;Desarrollador|Haskell.No.3-12-1994.1,000,000|else$sino$alternativa a condicion&then$entonces$inicio de bloque
