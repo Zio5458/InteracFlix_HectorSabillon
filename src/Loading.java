@@ -61,7 +61,6 @@ public class Loading extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
 
         jPanel2.setBackground(new java.awt.Color(102, 0, 0));
-        jPanel2.setForeground(new java.awt.Color(0, 0, 0));
 
         jLabel4.setText("Correo electronico");
 
@@ -185,14 +184,13 @@ public class Loading extends javax.swing.JFrame {
         jLabel1.setText("Nombre de Usuario");
 
         nom_Usuario.setBackground(new java.awt.Color(204, 0, 51));
-        nom_Usuario.setForeground(new java.awt.Color(0, 0, 0));
 
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Contraseña");
 
         login.setBackground(new java.awt.Color(204, 0, 0));
-        login.setForeground(new java.awt.Color(0, 0, 0));
         login.setText("Log in");
+        login.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         login.setEnabled(false);
         login.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {

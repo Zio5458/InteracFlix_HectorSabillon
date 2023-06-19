@@ -39,6 +39,8 @@ public class Principal extends javax.swing.JFrame {
     private int choice = 0;
     
     public Principal(String usuario) {
+        /*mp_mario.dispose();
+        storyPlay(clips, mensajes);*/
         initComponents();
         setVisible(false);
         setVisible(true);
@@ -111,6 +113,7 @@ public class Principal extends javax.swing.JFrame {
         l6 = new javax.swing.JLabel();
         skip = new javax.swing.JLabel();
         undo = new javax.swing.JLabel();
+        reload = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         opcion1 = new javax.swing.JButton();
         opcion2 = new javax.swing.JButton();
@@ -174,6 +177,7 @@ public class Principal extends javax.swing.JFrame {
         jPanel5.add(PlayerPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 720));
 
         skip.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/skip.png"))); // NOI18N
+        skip.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         skip.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 skipMouseClicked(evt);
@@ -182,12 +186,24 @@ public class Principal extends javax.swing.JFrame {
                 skipMouseEntered(evt);
             }
         });
-        jPanel5.add(skip, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 710, -1, -1));
+        jPanel5.add(skip, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 720, -1, -1));
 
         undo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/undo.png"))); // NOI18N
+        undo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel5.add(undo, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 720, -1, -1));
 
+        reload.setForeground(new java.awt.Color(255, 255, 255));
+        reload.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/reload.png"))); // NOI18N
+        reload.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        reload.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                reloadMouseClicked(evt);
+            }
+        });
+        jPanel5.add(reload, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 740, 100, 70));
+
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/exit-png.png"))); // NOI18N
+        jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel2MouseClicked(evt);
@@ -197,16 +213,18 @@ public class Principal extends javax.swing.JFrame {
 
         opcion1.setBackground(new java.awt.Color(0, 0, 255));
         opcion1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        opcion1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         opcion1.setEnabled(false);
         opcion1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 opcion1MouseClicked(evt);
             }
         });
-        jPanel5.add(opcion1, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 730, 210, 80));
+        jPanel5.add(opcion1, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 730, 210, 80));
 
         opcion2.setBackground(new java.awt.Color(255, 0, 0));
         opcion2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        opcion2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         opcion2.setEnabled(false);
         opcion2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -218,7 +236,7 @@ public class Principal extends javax.swing.JFrame {
                 opcion2ActionPerformed(evt);
             }
         });
-        jPanel5.add(opcion2, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 730, 210, 80));
+        jPanel5.add(opcion2, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 730, 210, 80));
 
         play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/play.png"))); // NOI18N
         play.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -227,7 +245,7 @@ public class Principal extends javax.swing.JFrame {
                 playMouseClicked(evt);
             }
         });
-        jPanel5.add(play, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 730, 80, 80));
+        jPanel5.add(play, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 730, 80, 80));
 
         Player_M.getContentPane().add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 820));
 
@@ -285,6 +303,7 @@ public class Principal extends javax.swing.JFrame {
         jButton1.setBackground(new java.awt.Color(255, 0, 0));
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton1.setText("Mutear Trailer");
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton1MouseClicked(evt);
@@ -339,6 +358,7 @@ public class Principal extends javax.swing.JFrame {
         tmmvlabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         tmmvlabel.setForeground(new java.awt.Color(255, 255, 255));
         tmmvlabel.setText("The Super Mario Bros. Movie - The Videogame");
+        tmmvlabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         tmmvlabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tmmvlabelMouseClicked(evt);
@@ -456,6 +476,7 @@ public class Principal extends javax.swing.JFrame {
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
         currentClip = 0;
         posicion = 0;
+        sum = 1;
         mp_mario.dispose();
         Player_M.dispose();
         
@@ -635,6 +656,11 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_skipMouseEntered
 
+    private void reloadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reloadMouseClicked
+        mp_mario.dispose();
+        storyPlay(clips, mensajes);
+    }//GEN-LAST:event_reloadMouseClicked
+
     public String setTextOp1() {
         switch (choice) {
             case 0: {
@@ -787,6 +813,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton opcion1;
     private javax.swing.JButton opcion2;
     private javax.swing.JButton play;
+    private javax.swing.JLabel reload;
     private javax.swing.JLabel skip;
     private javax.swing.JLabel tmmvlabel;
     private javax.swing.JLabel undo;
