@@ -53,26 +53,46 @@ public class Principal extends javax.swing.JFrame {
     }
 
     public void storyPlay(ArrayList<File> clips, String mensajes[]){
-        
+          
           playMario(clips.get(posicion));
           Platform.runLater(new Runnable() {
             @Override
             public void run() {
                  mp_mario.setOnEndOfMedia(() -> {
+                       currentClip++;
+                       if(currentClip < 3){
                        opcion1.setText(mensajes[posicion]);
                        opcion2.setText(mensajes[posicion+1]);
                        enable();
 
                        play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/play.png")));
+                       }
                    });
             }
 
         });
+          
            
         
     }
     
-    public void action(){
+    public void skip(){
+      
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                currentClip++;
+                       if(currentClip < 3){
+                       opcion1.setText(mensajes[posicion]);
+                       opcion2.setText(mensajes[posicion+1]);
+                       enable();
+
+                       play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/play.png")));
+                       }
+                  
+            }
+
+        });
         
     }
     @SuppressWarnings("unchecked")
@@ -154,6 +174,14 @@ public class Principal extends javax.swing.JFrame {
         jPanel5.add(PlayerPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 720));
 
         skip.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/skip.png"))); // NOI18N
+        skip.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                skipMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                skipMouseEntered(evt);
+            }
+        });
         jPanel5.add(skip, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 710, -1, -1));
 
         undo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/undo.png"))); // NOI18N
@@ -193,6 +221,7 @@ public class Principal extends javax.swing.JFrame {
         jPanel5.add(opcion2, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 730, 210, 80));
 
         play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/play.png"))); // NOI18N
+        play.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         play.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 playMouseClicked(evt);
@@ -413,19 +442,27 @@ public class Principal extends javax.swing.JFrame {
     private void tmmvlabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tmmvlabelMouseClicked
         mp.pause();
         mp.setVolume(0);
+        
         Player_M.pack();
         Player_M.setModal(true);
         Player_M.setLocationRelativeTo(this);
         PlayerPanel.setLayout(new BorderLayout());
         PlayerPanel.add(mario, BorderLayout.CENTER);
         Player_M.setVisible(true);
+        /*storyPlay(clips, mensajes);
+        mp_mario.pause();*/
     }//GEN-LAST:event_tmmvlabelMouseClicked
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+        currentClip = 0;
+        posicion = 0;
+        mp_mario.dispose();
         Player_M.dispose();
+        
+        disable();
+        
         mp.play();
-        mp_mario.stop();
-        mp_mario.setVolume(0);
+        
         if (muted) {
             mp.setVolume(0);
         } else {
@@ -439,7 +476,7 @@ public class Principal extends javax.swing.JFrame {
         }
 
         play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/play.png")));
-        mp_mario.dispose();
+      
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void opcion1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_opcion1MouseClicked
@@ -485,15 +522,18 @@ public class Principal extends javax.swing.JFrame {
         posicion += sum;
         sum++;
         //sum = 2
-        currentClip++;
+        
         play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/play.png")));
-        if(currentClip != 3){
+        
             storyPlay(clips, mensajes);
-        }
+        
     }//GEN-LAST:event_opcion1MouseClicked
 
     private void playMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playMouseClicked
-        if (isPlaying && !primera) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                 if (isPlaying && !primera) {
             mp_mario.pause();
             play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/play.png")));
             isPlaying = false;
@@ -517,6 +557,10 @@ public class Principal extends javax.swing.JFrame {
         l4.setVisible(false);
         l5.setVisible(false);
         l6.setVisible(false);
+            }
+
+        });
+        
         /*Platform.runLater(new Runnable() {
             @Override
             public void run() {
@@ -571,16 +615,25 @@ public class Principal extends javax.swing.JFrame {
         posicion += (sum+1);
         sum++;
         //sum = 2
-        currentClip++;
+        
         play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/play.png")));
-        if(currentClip != 3){
+      
             storyPlay(clips, mensajes);
-        }
+        
     }//GEN-LAST:event_opcion2MouseClicked
 
     private void opcion2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opcion2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_opcion2ActionPerformed
+
+    private void skipMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_skipMouseClicked
+        mp_mario.dispose();
+        skip();
+    }//GEN-LAST:event_skipMouseClicked
+
+    private void skipMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_skipMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_skipMouseEntered
 
     public String setTextOp1() {
         switch (choice) {
@@ -677,6 +730,7 @@ public class Principal extends javax.swing.JFrame {
                 mp.play();
             }
         });
+        
 
     }
 
