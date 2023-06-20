@@ -39,6 +39,7 @@ public class Principal extends javax.swing.JFrame {
     private boolean primera = true;
     private ArrayList<File> clips_L;
     private ArrayList<File> clips_M;
+    private ArrayList<File> movie;
     private boolean isLuigi;
     private boolean first = true;
 
@@ -59,11 +60,7 @@ public class Principal extends javax.swing.JFrame {
     }
 
     public void storyPlay(ArrayList<File> clips, String mensajes[]) {
-        if (isLuigi){
-            playMario(clips_L.get(posicion));
-        } else {
-            playMario(clips_M.get(posicion));
-        }
+        playMario(clips.get(posicion));
         //playMario(clips.get(posicion));
         Platform.runLater(new Runnable() {
             @Override
@@ -89,6 +86,7 @@ public class Principal extends javax.swing.JFrame {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
+                if(!first){
                 currentClip++;
                 if (currentClip < 3) {
                     opcion1.setText(mensajes[posicion]);
@@ -96,6 +94,12 @@ public class Principal extends javax.swing.JFrame {
                     enable();
 
                     play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/play.png")));
+                }
+                }else{
+                    opcion1.setText("Historia de Mario");
+                    opcion2.setText("Historia de Luigi");
+                     enable();
+                        play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/play.png")));
                 }
 
             }
@@ -120,8 +124,8 @@ public class Principal extends javax.swing.JFrame {
         skip = new javax.swing.JLabel();
         undo = new javax.swing.JLabel();
         reload = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         opcion1 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
         opcion2 = new javax.swing.JButton();
         play = new javax.swing.JButton();
         jPopupMenu1 = new javax.swing.JPopupMenu();
@@ -209,15 +213,6 @@ public class Principal extends javax.swing.JFrame {
         });
         jPanel5.add(reload, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 740, 100, 70));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/exit-png.png"))); // NOI18N
-        jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel2MouseClicked(evt);
-            }
-        });
-        jPanel5.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1210, 740, -1, -1));
-
         opcion1.setBackground(new java.awt.Color(0, 0, 255));
         opcion1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         opcion1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -228,6 +223,15 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jPanel5.add(opcion1, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 730, 210, 80));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/exit-png.png"))); // NOI18N
+        jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
+        jPanel5.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1210, 740, -1, -1));
 
         opcion2.setBackground(new java.awt.Color(255, 0, 0));
         opcion2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -252,10 +256,8 @@ public class Principal extends javax.swing.JFrame {
         Player_M.getContentPane().add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 820));
 
         jPopupMenu1.setBackground(new java.awt.Color(204, 0, 51));
-        jPopupMenu1.setForeground(new java.awt.Color(0, 0, 0));
 
         imagen_perfil.setBackground(new java.awt.Color(204, 0, 51));
-        imagen_perfil.setForeground(new java.awt.Color(0, 0, 0));
         imagen_perfil.setText("Cambiar Imagen de Perfil");
         imagen_perfil.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -326,7 +328,6 @@ public class Principal extends javax.swing.JFrame {
 
         jButton1.setBackground(new java.awt.Color(255, 0, 0));
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(0, 0, 0));
         jButton1.setText("Mutear Trailer");
         jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -485,9 +486,14 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_tmmvlabelMouseExited
 
     private void tmmvlabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tmmvlabelMouseClicked
+        currentClip = 0;
+        posicion = 0;
+        sum = 1;
+        first = true;
+     
         mp.pause();
         mp.setVolume(0);
-
+        
         Player_M.pack();
         Player_M.setModal(true);
         Player_M.setLocationRelativeTo(this);
@@ -502,6 +508,7 @@ public class Principal extends javax.swing.JFrame {
         currentClip = 0;
         posicion = 0;
         sum = 1;
+        first = true;
         mp_mario.dispose();
         Player_M.dispose();
 
@@ -525,18 +532,15 @@ public class Principal extends javax.swing.JFrame {
         disable();
         if (first){
             first = false;
-            isLuigi = false;
+            movie = clips_M;
+            
+        }else{
+            posicion += sum;
+            sum++;
         }
-        posicion += sum;
-        sum++;
-
         play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/play.png")));
-        if (isLuigi){
-            storyPlay(clips_L, mensajes);
-        } else {
-            storyPlay(clips_M, mensajes);
-        }
-        //storyPlay(clips, mensajes);
+    
+        storyPlay(movie, mensajes);
 
     }//GEN-LAST:event_opcion1MouseClicked
 
@@ -574,19 +578,19 @@ public class Principal extends javax.swing.JFrame {
 
     private void opcion2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_opcion2MouseClicked
         disable();
-        posicion += (sum + 1);
-        sum++;
+        
         if (first){
             first = false;
             isLuigi = true;
+            movie= clips_L;
+        }else{
+            
+           posicion += (sum + 1);
+            sum+=2; //sum = 3
         }
         play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/play.png")));
-        if (isLuigi){
-            storyPlay(clips_L, mensajes);
-        } else {
-            storyPlay(clips_M, mensajes);
-        }
-        //storyPlay(clips, mensajes);
+       
+        storyPlay(movie, mensajes);
 
     }//GEN-LAST:event_opcion2MouseClicked
 
@@ -607,23 +611,13 @@ public class Principal extends javax.swing.JFrame {
             public void run() {
                 playMario(new File("./src/Clips1/clip1.mp4"));
                 play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/pause.jpg")));
-                mp_mario.setStopTime(Duration.seconds(92.0));
-                mp_mario.setOnEndOfMedia(() -> {
-                        opcion1.setText(mensajes[posicion]);
-                        opcion2.setText(mensajes[posicion + 1]);
-                        enable();
-                        play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/play.png")));
-                });
+           
             }
 
         });
             
         } else {
-            if (isLuigi){
-                storyPlay(clips_L, mensajes);
-            } else {
-                storyPlay(clips_M, mensajes);
-            }
+            storyPlay(movie, mensajes);
         }
         //storyPlay(clips, mensajes);
     }//GEN-LAST:event_reloadMouseClicked
@@ -766,6 +760,15 @@ public class Principal extends javax.swing.JFrame {
                 mp_mario.setCycleCount(1);
                 mp_mario.setVolume(0.2);
                 mp_mario.play();
+                if(first){
+                mp_mario.setStopTime(Duration.seconds(92.0));
+                mp_mario.setOnEndOfMedia(() -> {
+                        opcion1.setText(mensajes[posicion]);
+                        opcion2.setText(mensajes[posicion + 1]);
+                        enable();
+                        play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/play.png")));
+                });
+                }
             }
 
         });
