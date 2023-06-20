@@ -18,11 +18,12 @@ import javafx.scene.media.MediaView;
 import javafx.util.Duration;
 
 public class Principal extends javax.swing.JFrame {
+
     //prueba
     private int posicion = 0;
     private int sum = 1;
     private int currentClip = 0;
-    
+
     private String mensajes[] = {"m1", "m2", "m3", "m4", "m5", "m6", "m7"};
     //metodo establecido
     private boolean luigi = false;
@@ -36,8 +37,11 @@ public class Principal extends javax.swing.JFrame {
     private ArrayList<File> clips;
     private boolean isPlaying = false;
     private boolean primera = true;
-    private int choice = 0;
-    
+    private ArrayList<File> clips_L;
+    private ArrayList<File> clips_M;
+    private boolean isLuigi;
+    private boolean first = true;
+
     public Principal(String usuario) {
         /*mp_mario.dispose();
         storyPlay(clips, mensajes);*/
@@ -49,54 +53,57 @@ public class Principal extends javax.swing.JFrame {
         jPanel2.setLayout(new BorderLayout());
         jPanel2.add(jfxpanel, BorderLayout.CENTER);
         files();
+        clipDistribution();
         opcion1.setVisible(false);
         opcion2.setVisible(false);
-        mario_dormido.setVisible(false);
     }
 
-    public void storyPlay(ArrayList<File> clips, String mensajes[]){
-          
-          playMario(clips.get(posicion));
-          Platform.runLater(new Runnable() {
+    public void storyPlay(ArrayList<File> clips, String mensajes[]) {
+        if (isLuigi){
+            playMario(clips_L.get(posicion));
+        } else {
+            playMario(clips_M.get(posicion));
+        }
+        //playMario(clips.get(posicion));
+        Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                 mp_mario.setOnEndOfMedia(() -> {
-                       currentClip++;
-                       if(currentClip < 3){
-                       opcion1.setText(mensajes[posicion]);
-                       opcion2.setText(mensajes[posicion+1]);
-                       enable();
+                mp_mario.setOnEndOfMedia(() -> {
+                    currentClip++;
+                    if (currentClip < 3) {
+                        opcion1.setText(mensajes[posicion]);
+                        opcion2.setText(mensajes[posicion + 1]);
+                        enable();
 
-                       play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/play.png")));
-                       }
-                   });
+                        play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/play.png")));
+                    }
+                });
             }
 
         });
-          
-           
-        
+
     }
-    
-    public void skip(){
-      
+
+    public void skip() {
+
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
                 currentClip++;
-                       if(currentClip < 3){
-                       opcion1.setText(mensajes[posicion]);
-                       opcion2.setText(mensajes[posicion+1]);
-                       enable();
+                if (currentClip < 3) {
+                    opcion1.setText(mensajes[posicion]);
+                    opcion2.setText(mensajes[posicion + 1]);
+                    enable();
 
-                       play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/play.png")));
-                       }
-                  
+                    play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/play.png")));
+                }
+
             }
 
         });
-        
+
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -104,7 +111,6 @@ public class Principal extends javax.swing.JFrame {
         Player_M = new javax.swing.JDialog();
         jPanel5 = new javax.swing.JPanel();
         PlayerPanel = new javax.swing.JPanel();
-        mario_dormido = new javax.swing.JLabel();
         l1 = new javax.swing.JLabel();
         l3 = new javax.swing.JLabel();
         l2 = new javax.swing.JLabel();
@@ -118,6 +124,10 @@ public class Principal extends javax.swing.JFrame {
         opcion1 = new javax.swing.JButton();
         opcion2 = new javax.swing.JButton();
         play = new javax.swing.JButton();
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        imagen_perfil = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        cerrar_sesion = new javax.swing.JMenuItem();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
@@ -142,9 +152,6 @@ public class Principal extends javax.swing.JFrame {
 
         PlayerPanel.setBackground(new java.awt.Color(51, 51, 51));
         PlayerPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        mario_dormido.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/mario_toldeado.jpg"))); // NOI18N
-        PlayerPanel.add(mario_dormido, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, -1));
 
         l1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         l1.setText("Presione el boton");
@@ -231,11 +238,6 @@ public class Principal extends javax.swing.JFrame {
                 opcion2MouseClicked(evt);
             }
         });
-        opcion2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                opcion2ActionPerformed(evt);
-            }
-        });
         jPanel5.add(opcion2, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 730, 210, 80));
 
         play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/play.png"))); // NOI18N
@@ -248,6 +250,28 @@ public class Principal extends javax.swing.JFrame {
         jPanel5.add(play, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 730, 80, 80));
 
         Player_M.getContentPane().add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 820));
+
+        jPopupMenu1.setBackground(new java.awt.Color(204, 0, 51));
+        jPopupMenu1.setForeground(new java.awt.Color(0, 0, 0));
+
+        imagen_perfil.setBackground(new java.awt.Color(204, 0, 51));
+        imagen_perfil.setForeground(new java.awt.Color(0, 0, 0));
+        imagen_perfil.setText("Cambiar Imagen de Perfil");
+        imagen_perfil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                imagen_perfilActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(imagen_perfil);
+        jPopupMenu1.add(jSeparator1);
+
+        cerrar_sesion.setText("jMenuItem1");
+        cerrar_sesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cerrar_sesionActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(cerrar_sesion);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -302,6 +326,7 @@ public class Principal extends javax.swing.JFrame {
 
         jButton1.setBackground(new java.awt.Color(255, 0, 0));
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(0, 0, 0));
         jButton1.setText("Mutear Trailer");
         jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -462,7 +487,7 @@ public class Principal extends javax.swing.JFrame {
     private void tmmvlabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tmmvlabelMouseClicked
         mp.pause();
         mp.setVolume(0);
-        
+
         Player_M.pack();
         Player_M.setModal(true);
         Player_M.setLocationRelativeTo(this);
@@ -479,11 +504,11 @@ public class Principal extends javax.swing.JFrame {
         sum = 1;
         mp_mario.dispose();
         Player_M.dispose();
-        
+
         disable();
-        
+
         mp.play();
-        
+
         if (muted) {
             mp.setVolume(0);
         } else {
@@ -491,161 +516,79 @@ public class Principal extends javax.swing.JFrame {
         }
         isPlaying = false;
         primera = true;
-        choice = 0;
-        if (mario_dormido.isVisible()) {
-            mario_dormido.setVisible(false);
-        }
 
         play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/play.png")));
-      
+
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void opcion1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_opcion1MouseClicked
         disable();
-        /*switch (choice) {
-            case 0: {
-                playMario(clips.get(1));
-                choice++;
-                play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/pause.jpg")));
-                mp_mario.setStopTime(Duration.seconds(60));
-                mp_mario.stop();
-                mp_mario.setOnEndOfMedia(() -> {
-                    opcion1.setText(setTextOp1());
-                    opcion2.setText(setTextOp2());
-                    enable();
-
-                    play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/play.png")));
-                });
-                break;
-            }
-            case 1: {
-                //playMario(clips.get(x));
-                break;
-            }
-            case 2: {
-                if (luigi) {
-                    playMario(clips.get(3));
-                    choice++;
-                    play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/pause.jpg")));
-                    mp_mario.setStopTime(Duration.seconds(60));
-                    mp_mario.stop();
-                    mp_mario.setOnEndOfMedia(() -> {
-                        opcion1.setText(setTextOp1());
-                        opcion2.setText(setTextOp2());
-                        enable();
-
-                        play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/play.png")));
-                    });
-                }
-                break;
-            }
-        }*/
+        if (first){
+            first = false;
+            isLuigi = false;
+        }
         posicion += sum;
         sum++;
-        //sum = 2
-        
+
         play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/play.png")));
-        
-            storyPlay(clips, mensajes);
-        
+        if (isLuigi){
+            storyPlay(clips_L, mensajes);
+        } else {
+            storyPlay(clips_M, mensajes);
+        }
+        //storyPlay(clips, mensajes);
+
     }//GEN-LAST:event_opcion1MouseClicked
 
     private void playMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playMouseClicked
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                 if (isPlaying && !primera) {
-            mp_mario.pause();
-            play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/play.png")));
-            isPlaying = false;
-        } else if (!isPlaying && !primera) {
-            mp_mario.play();
-            mp_mario.setRate(1.0);
-            play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/pause.jpg")));
-            isPlaying = true;
-        }
-        if (primera) {
-            primera = false;
-            isPlaying = true;
-            storyPlay(clips, mensajes);
-            //playMario(clips.get(0));
-            play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/pause.jpg")));
-            choice = 0;
-        }
-        l1.setVisible(false);
-        l3.setVisible(false);
-        l2.setVisible(false);
-        l4.setVisible(false);
-        l5.setVisible(false);
-        l6.setVisible(false);
+                if (isPlaying && !primera) {
+                    mp_mario.pause();
+                    play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/play.png")));
+                    isPlaying = false;
+                } else if (!isPlaying && !primera) {
+                    mp_mario.play();
+                    mp_mario.setRate(1.0);
+                    play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/pause.jpg")));
+                    isPlaying = true;
+                }
+                if (primera) {
+                    primera = false;
+                    isPlaying = true;
+                    playMario(new File("./src/Clips1/clip1.mp4"));
+                    play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/pause.jpg")));
+                }
+                l1.setVisible(false);
+                l3.setVisible(false);
+                l2.setVisible(false);
+                l4.setVisible(false);
+                l5.setVisible(false);
+                l6.setVisible(false);
             }
 
         });
-        
-        /*Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                 mp_mario.setOnEndOfMedia(() -> {
-            enable();
-            opcion1.setText(setTextOp1());
-            opcion2.setText(setTextOp2());
-            play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/play.png")));
-        });
-            }
 
-        });*/
-       
     }//GEN-LAST:event_playMouseClicked
 
     private void opcion2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_opcion2MouseClicked
         disable();
-        /*switch (choice) {
-            case 0: {
-                mario_dormido.setVisible(true);
-                File audio = new File("./src//Audios//audio_mario.mp3/");
-                playMario(audio);
-                play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/pause.jpg")));
-                break;
-            }
-            case 1: {
-                playMario(clips.get(2));
-                choice++;
-                play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/pause.jpg")));
-                mp_mario.setStopTime(Duration.seconds(56));
-                mp_mario.setOnEndOfMedia(() -> {
-                    opcion1.setText(setTextOp1());
-                    opcion2.setText(setTextOp2());
-                    enable();
-                    play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/play.png")));
-                });
-                break;
-            }
-            case 2: {
-                playMario(clips.get(4));
-                choice++;
-                play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/pause.jpg")));
-                mp_mario.setOnEndOfMedia(() -> {
-                    enable();
-                    opcion1.setText(setTextOp1());
-                    opcion2.setText(setTextOp2());
-                    play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/play.png")));
-                });
-                break;
-            }
-        }*/
-        posicion += (sum+1);
+        posicion += (sum + 1);
         sum++;
-        //sum = 2
-        
+        if (first){
+            first = false;
+            isLuigi = true;
+        }
         play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/play.png")));
-      
-            storyPlay(clips, mensajes);
-        
-    }//GEN-LAST:event_opcion2MouseClicked
+        if (isLuigi){
+            storyPlay(clips_L, mensajes);
+        } else {
+            storyPlay(clips_M, mensajes);
+        }
+        //storyPlay(clips, mensajes);
 
-    private void opcion2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opcion2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_opcion2ActionPerformed
+    }//GEN-LAST:event_opcion2MouseClicked
 
     private void skipMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_skipMouseClicked
         mp_mario.dispose();
@@ -658,9 +601,42 @@ public class Principal extends javax.swing.JFrame {
 
     private void reloadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reloadMouseClicked
         mp_mario.dispose();
-        storyPlay(clips, mensajes);
+        if (first){
+            Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                playMario(new File("./src/Clips1/clip1.mp4"));
+                play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/pause.jpg")));
+                mp_mario.setStopTime(Duration.seconds(92.0));
+                mp_mario.setOnEndOfMedia(() -> {
+                        opcion1.setText(mensajes[posicion]);
+                        opcion2.setText(mensajes[posicion + 1]);
+                        enable();
+                        play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/play.png")));
+                });
+            }
+
+        });
+            
+        } else {
+            if (isLuigi){
+                storyPlay(clips_L, mensajes);
+            } else {
+                storyPlay(clips_M, mensajes);
+            }
+        }
+        //storyPlay(clips, mensajes);
     }//GEN-LAST:event_reloadMouseClicked
 
+    private void imagen_perfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imagen_perfilActionPerformed
+        
+    }//GEN-LAST:event_imagen_perfilActionPerformed
+
+    private void cerrar_sesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cerrar_sesionActionPerformed
+        this.dispose();
+        Loading loading = new Loading();
+    }//GEN-LAST:event_cerrar_sesionActionPerformed
+/*
     public String setTextOp1() {
         switch (choice) {
             case 0: {
@@ -694,7 +670,7 @@ public class Principal extends javax.swing.JFrame {
             }
         }
     }
-
+*/
     public void disable() {
         opcion1.setEnabled(false);
         opcion2.setEnabled(false);
@@ -756,7 +732,6 @@ public class Principal extends javax.swing.JFrame {
                 mp.play();
             }
         });
-        
 
     }
 
@@ -771,6 +746,17 @@ public class Principal extends javax.swing.JFrame {
         }
     }
 
+    private void clipDistribution(){
+        clips_L = new ArrayList();
+        clips_L.add(new File("./src/Clips1/clipLuigi1.mp4"));
+        clips_L.add(new File("./src/Clips1/clipLuigi2A.mp4"));
+        clips_L.add(new File("./src/Clips1/clipLuigi2B.mp4"));
+        clips_L.add(new File("./src/Clips1/clipLuigi3A.mp4"));
+        clips_L.add(new File("./src/Clips1/clipLuigi3B.mp4"));
+        clips_L.add(new File("./src/Clips1/clipLuigi3C.mp4"));
+        clips_L.add(new File("./src/Clips1/clipLuigi3D.mp4"));
+    }
+    
     private void playMario(File clip) {
         Platform.runLater(new Runnable() {
             @Override
@@ -788,6 +774,8 @@ public class Principal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PlayerPanel;
     private javax.swing.JDialog Player_M;
+    private javax.swing.JMenuItem cerrar_sesion;
+    private javax.swing.JMenuItem imagen_perfil;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -802,6 +790,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPopupMenu jPopupMenu1;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel l1;
     private javax.swing.JLabel l2;
@@ -809,7 +799,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel l4;
     private javax.swing.JLabel l5;
     private javax.swing.JLabel l6;
-    private javax.swing.JLabel mario_dormido;
     private javax.swing.JButton opcion1;
     private javax.swing.JButton opcion2;
     private javax.swing.JButton play;
