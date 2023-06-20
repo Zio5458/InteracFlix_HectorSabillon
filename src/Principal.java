@@ -60,7 +60,7 @@ public class Principal extends javax.swing.JFrame {
     }
 
     public void storyPlay(ArrayList<File> clips, String mensajes[]) {
-        playMario(clips.get(posicion));
+        playMario(clips.get(posicion - sum));
         //playMario(clips.get(posicion));
         Platform.runLater(new Runnable() {
             @Override
@@ -71,7 +71,6 @@ public class Principal extends javax.swing.JFrame {
                         opcion1.setText(mensajes[posicion]);
                         opcion2.setText(mensajes[posicion + 1]);
                         enable();
-
                         play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/play.png")));
                     }
                 });
@@ -86,20 +85,20 @@ public class Principal extends javax.swing.JFrame {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                if(!first){
-                currentClip++;
-                if (currentClip < 3) {
-                    opcion1.setText(mensajes[posicion]);
-                    opcion2.setText(mensajes[posicion + 1]);
-                    enable();
+                if (!first) {
+                    currentClip++;
+                    if (currentClip < 3) {
+                        opcion1.setText(mensajes[posicion]);
+                        opcion2.setText(mensajes[posicion + 1]);
+                        enable();
 
-                    play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/play.png")));
-                }
-                }else{
+                        play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/play.png")));
+                    }
+                } else {
                     opcion1.setText("Historia de Mario");
                     opcion2.setText("Historia de Luigi");
-                     enable();
-                        play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/play.png")));
+                    enable();
+                    play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/play.png")));
                 }
 
             }
@@ -201,6 +200,11 @@ public class Principal extends javax.swing.JFrame {
 
         undo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/undo.png"))); // NOI18N
         undo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        undo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                undoMouseClicked(evt);
+            }
+        });
         jPanel5.add(undo, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 720, -1, -1));
 
         reload.setForeground(new java.awt.Color(255, 255, 255));
@@ -490,10 +494,10 @@ public class Principal extends javax.swing.JFrame {
         posicion = 0;
         sum = 1;
         first = true;
-     
+
         mp.pause();
         mp.setVolume(0);
-        
+
         Player_M.pack();
         Player_M.setModal(true);
         Player_M.setLocationRelativeTo(this);
@@ -530,16 +534,16 @@ public class Principal extends javax.swing.JFrame {
 
     private void opcion1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_opcion1MouseClicked
         disable();
-        if (first){
+        if (first) {
             first = false;
             movie = clips_M;
-            
-        }else{
+
+        } else {
             posicion += sum;
             sum++;
         }
         play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/play.png")));
-    
+
         storyPlay(movie, mensajes);
 
     }//GEN-LAST:event_opcion1MouseClicked
@@ -578,18 +582,18 @@ public class Principal extends javax.swing.JFrame {
 
     private void opcion2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_opcion2MouseClicked
         disable();
-        
-        if (first){
+
+        if (first) {
             first = false;
             isLuigi = true;
-            movie= clips_L;
-        }else{
-            
-           posicion += (sum + 1);
-            sum+=2; //sum = 3
+            movie = clips_L;
+        } else {
+
+            posicion += (sum + 1);
+            sum += 2; //sum = 3
         }
         play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/play.png")));
-       
+
         storyPlay(movie, mensajes);
 
     }//GEN-LAST:event_opcion2MouseClicked
@@ -605,17 +609,17 @@ public class Principal extends javax.swing.JFrame {
 
     private void reloadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reloadMouseClicked
         mp_mario.dispose();
-        if (first){
+        if (first) {
             Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                playMario(new File("./src/Clips1/clip1.mp4"));
-                play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/pause.jpg")));
-           
-            }
+                @Override
+                public void run() {
+                    playMario(new File("./src/Clips1/clip1.mp4"));
+                    play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/pause.jpg")));
 
-        });
-            
+                }
+
+            });
+
         } else {
             storyPlay(movie, mensajes);
         }
@@ -623,48 +627,20 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_reloadMouseClicked
 
     private void imagen_perfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imagen_perfilActionPerformed
-        
+
     }//GEN-LAST:event_imagen_perfilActionPerformed
 
     private void cerrar_sesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cerrar_sesionActionPerformed
         this.dispose();
         Loading loading = new Loading();
     }//GEN-LAST:event_cerrar_sesionActionPerformed
-/*
-    public String setTextOp1() {
-        switch (choice) {
-            case 0: {
-                return "Investigar";
-            }
-            case 1: {
-                return "Punto de Vista Mario";
-            }
-            case 2: {
-                return "Correr hasta donde llegue";
-            }
-            default: {
-                return "";
-            }
-        }
-    }
 
-    public String setTextOp2() {
-        switch (choice) {
-            case 0: {
-                return "Ignorar";
-            }
-            case 1: {
-                return "Punto de Vista Luigi";
-            }
-            case 2: {
-                return "Buscar refugio";
-            }
-            default: {
-                return "";
-            }
-        }
-    }
-*/
+    private void undoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_undoMouseClicked
+        mp_mario.dispose();
+        storyPlay(movie, mensajes);
+
+    }//GEN-LAST:event_undoMouseClicked
+
     public void disable() {
         opcion1.setEnabled(false);
         opcion2.setEnabled(false);
@@ -740,7 +716,7 @@ public class Principal extends javax.swing.JFrame {
         }
     }
 
-    private void clipDistribution(){
+    private void clipDistribution() {
         clips_L = new ArrayList();
         clips_L.add(new File("./src/Clips1/clipLuigi1.mp4"));
         clips_L.add(new File("./src/Clips1/clipLuigi2A.mp4"));
@@ -750,7 +726,7 @@ public class Principal extends javax.swing.JFrame {
         clips_L.add(new File("./src/Clips1/clipLuigi3C.mp4"));
         clips_L.add(new File("./src/Clips1/clipLuigi3D.mp4"));
     }
-    
+
     private void playMario(File clip) {
         Platform.runLater(new Runnable() {
             @Override
@@ -760,14 +736,14 @@ public class Principal extends javax.swing.JFrame {
                 mp_mario.setCycleCount(1);
                 mp_mario.setVolume(0.2);
                 mp_mario.play();
-                if(first){
-                mp_mario.setStopTime(Duration.seconds(92.0));
-                mp_mario.setOnEndOfMedia(() -> {
+                if (first) {
+                    mp_mario.setStopTime(Duration.seconds(92.0));
+                    mp_mario.setOnEndOfMedia(() -> {
                         opcion1.setText(mensajes[posicion]);
                         opcion2.setText(mensajes[posicion + 1]);
                         enable();
                         play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/play.png")));
-                });
+                    });
                 }
             }
 
