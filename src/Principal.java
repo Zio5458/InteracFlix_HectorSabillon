@@ -60,7 +60,7 @@ public class Principal extends javax.swing.JFrame {
     }
 
     public void storyPlay(ArrayList<File> clips, String mensajes[]) {
-        playMario(clips.get(posicion - sum));
+        playMario(clips.get(posicion));
         //playMario(clips.get(posicion));
         Platform.runLater(new Runnable() {
             @Override
@@ -253,6 +253,11 @@ public class Principal extends javax.swing.JFrame {
         play.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 playMouseClicked(evt);
+            }
+        });
+        play.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                playActionPerformed(evt);
             }
         });
         jPanel5.add(play, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 730, 80, 80));
@@ -636,10 +641,40 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_cerrar_sesionActionPerformed
 
     private void undoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_undoMouseClicked
-        mp_mario.dispose();
-        storyPlay(movie, mensajes);
+
+        if (posicion == 0 && !first) {
+            first = true;
+            playMario(new File("./src/Clips1/clip1.mp4"));
+        } else {
+            if (posicion == 1) {
+                posicion--;
+                sum = 1;
+            } else if (posicion == 2) {
+                posicion -= 2;
+                sum = 1;
+            } else if (posicion == 3) {
+                posicion -= 2;
+                sum = 2;
+            } else if (posicion == 4) {
+                posicion -= 3;
+                sum = 2;
+            } else if (posicion == 5) {
+                posicion -= 3;
+                sum = 3;
+            } else if (posicion == 6) {
+                posicion -= 4;
+                sum = 3;
+            }
+            currentClip--;
+            storyPlay(movie, mensajes);
+        }
+
 
     }//GEN-LAST:event_undoMouseClicked
+
+    private void playActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_playActionPerformed
 
     public void disable() {
         opcion1.setEnabled(false);
